@@ -29,7 +29,6 @@ def call_patreon(cache_reponse=False):
 
     print("Retrieving data from Patreon...")
     url = "https://www.patreon.com/api/oauth2/v2/campaigns/82133/members?include=currently_entitled_tiers&fields[member]=full_name,lifetime_support_cents,patron_status,pledge_relationship_start,currently_entitled_amount_cents&fields[tier]=amount_cents"
-    # "// Sample response for https://www.patreon.com/api/oauth2/v2/campaigns/{campaign_id}/members?include=currently_entitled_tiers,address&fields[member]=full_name,is_follower,last_charge_date,last_charge_status,lifetime_support_cents,currently_entitled_amount_cents,patron_status&fields[tier]=amount_cents,created_at,description,discord_role_ids,edited_at,patron_count,published,published_at,requires_shipping,title,url"
     headers = {"Authorization": PATREON_AUTH_TOKEN}
     patrons = []
     two_fifty_tier_id = None
@@ -50,7 +49,7 @@ def call_patreon(cache_reponse=False):
                     two_fifty_tier_id = i["id"]
                     print(f"$250 tier ID: {two_fifty_tier_id}")
                     break
-        if not "links" in json_response:
+        if "links" not in json_response:
             break
         url = json_response["links"]["next"]
 
@@ -164,8 +163,9 @@ def call_discord_webhook(endpoint, content):
     else:
         raise ValueError(f"THE FUCK YOU SMOKING, SON?? {endpoint} ISN'T A GODDAMN DISCORD ENDPOINT!")
     webhook = DiscordWebhook(url=url, content=content)
-    print(webhook.execute())
-    sleep(1)  # Avoid rate limiting
+    response = webhook.execute()
+    print(f"{response.status_code}: {response.content}")
+    sleep(10)  # Avoid rate limiting
 
 
 def main(debug=False):
