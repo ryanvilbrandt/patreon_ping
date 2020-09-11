@@ -170,12 +170,14 @@ def call_discord_webhook(endpoint, content):
 
 def main(debug=False):
     patrons_db = get_patrons_db()
-    try:
-        while True:
+    while True:
+        try:
             check_patrons(patrons_db, debug)
-            sleep(10 * 60)  # Every ten minutes
-    except KeyboardInterrupt:
-        pass
+            sleep(10 * 60)  # Every ten minutes        
+        except KeyboardInterrupt:
+            break
+        except Exception:
+            pass
 
 
 if __name__ == "__main__":
