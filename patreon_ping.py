@@ -142,7 +142,7 @@ def check_250_tier_patrons(patrons_list, patrons_db, two_fifty_tier_id):
                 new_two_fifty_list.append(full_name)
     if new_two_fifty_list != two_fifty_list:
         if len(new_two_fifty_list) < 4:
-            call_discord_webhook("Public", f"There is a free slot in the $250 tier! Grab it quick!")
+            call_discord_webhook("Public", f"<@&754383521522385016>: There is an open slot in the limited $250 tier! <https://www.patreon.com/tamberlane>")
         patrons_db["$250 tier"] = new_two_fifty_list
         update_patrons_db(patrons_db)
 
